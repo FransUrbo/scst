@@ -1,0 +1,130 @@
+--- a/fcst/Makefile
++++ b/fcst/Makefile
+@@ -36,7 +36,9 @@
+     KDIR := /lib/modules/$(KVER)/build
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ export PWD    := $(shell pwd)
+--- a/ibmvstgt/Makefile
++++ b/ibmvstgt/Makefile
+@@ -13,7 +13,9 @@
+     KVER = $$KERNELRELEASE
+   endif
+ else
+-  KDIR ?= /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR ?= /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ # The file Modules.symvers has been renamed in the 2.6.18 kernel to
+--- a/iscsi-scst/Makefile
++++ b/iscsi-scst/Makefile
+@@ -33,7 +33,9 @@
+     KVER = $$KERNELRELEASE
+   endif
+ else
+-  KDIR ?= /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR ?= /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ all: include/iscsi_scst_itf_ver.h progs mods
+--- a/mpt/Makefile
++++ b/mpt/Makefile
+@@ -43,7 +43,9 @@
+     KDIR := /lib/modules/$(shell uname -r)/build
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ LSI_INC_DIR := $(KDIR)/drivers/message/fusion
+--- a/mvsas_tgt/Makefile
++++ b/mvsas_tgt/Makefile
+@@ -35,7 +35,9 @@
+     KDIR := /lib/modules/$(KVER)/build
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ export PWD    := $(shell pwd)
+--- a/qla2x00t/Makefile
++++ b/qla2x00t/Makefile
+@@ -35,7 +35,9 @@
+     KDIR := /lib/modules/$(shell uname -r)/build
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ ifneq ($(PATCHLEVEL),)
+--- a/qla2x00t/qla2x00-target/Makefile
++++ b/qla2x00t/qla2x00-target/Makefile
+@@ -52,7 +52,9 @@
+     KDIR := /lib/modules/$(KVER)/build
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ ifeq ($(BUILD_2X_MODULE),)
+--- a/scst/src/Makefile
++++ b/scst/src/Makefile
+@@ -61,7 +61,9 @@
+     KDIR := /lib/modules/$(KVER)/build
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ all:
+--- a/scst_local/Makefile
++++ b/scst_local/Makefile
+@@ -29,7 +29,9 @@
+     KDIR := /lib/modules/$(shell uname -r)/build
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ ifneq ($(PATCHLEVEL),)
+--- a/srpt/Makefile
++++ b/srpt/Makefile
+@@ -21,7 +21,9 @@
+     KVER = $$KERNELRELEASE
+   endif
+ else
+-  KDIR ?= /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR ?= /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ # Set variable $(2) to value $(3) in file $(1).

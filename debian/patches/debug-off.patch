@@ -1,0 +1,244 @@
+--- a/fcst/Makefile
++++ b/fcst/Makefile
+@@ -47,7 +47,7 @@
+ set_var = $(shell { if [ -e "$(1)" ]; then grep -v '^$(2)=' "$(1)"; fi; echo "$(2)=$(3)"; } >/tmp/$(1)-$$$$.tmp && mv /tmp/$(1)-$$$$.tmp $(1))
+ 
+ 
+-FCSTFLAGS = -DDEBUG_WORK_IN_THREAD -DCONFIG_SCST_TRACING -DCONFIG_SCST_DEBUG \
++FCSTFLAGS = -DDEBUG_WORK_IN_THREAD -DCONFIG_SCST_TRACING \
+ 	-DCONFIG_SCST_EXTRACHECKS -fno-inline -fno-inline-functions
+ FCSTFLAGSRELEASE = -DCONFIG_SCST_TRACING
+ FCSTFLAGSPERF =
+--- a/iscsi-scst/Makefile
++++ b/iscsi-scst/Makefile
+@@ -100,8 +100,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" $(KMOD)/Makefile >/dev/null
+ 	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ $(KMOD)/Makefile
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" $(KMOD)/Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ $(KMOD)/Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" $(KMOD)/Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ $(KMOD)/Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" $(KMOD)/Makefile >/dev/null
+ 	rm $(KMOD)/Makefile.aa
+ 
+ 2debug:
+@@ -109,8 +109,8 @@
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" $(KMOD)/Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ $(KMOD)/Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" $(KMOD)/Makefile >/dev/null
+-	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ $(KMOD)/Makefile
+-	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" $(KMOD)/Makefile >/dev/null
++	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ $(KMOD)/Makefile
++	grep "^EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" $(KMOD)/Makefile >/dev/null
+ 	rm $(KMOD)/Makefile.aa
+ 
+ 2perf:
+@@ -118,8 +118,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" $(KMOD)/Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ $(KMOD)/Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" $(KMOD)/Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ $(KMOD)/Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" $(KMOD)/Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ $(KMOD)/Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" $(KMOD)/Makefile >/dev/null
+ 	rm $(KMOD)/Makefile.aa
+ 
+ disable_proc:
+--- a/iscsi-scst/kernel/Makefile
++++ b/iscsi-scst/kernel/Makefile
+@@ -32,7 +32,7 @@
+ 
+ EXTRA_CFLAGS += -DCONFIG_SCST_EXTRACHECKS
+ #EXTRA_CFLAGS += -DCONFIG_SCST_TRACING
+-EXTRA_CFLAGS += -DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions
++EXTRA_CFLAGS += -g -fno-inline -fno-inline-functions
+ 
+ #EXTRA_CFLAGS += -DCONFIG_SCST_ISCSI_DEBUG_DIGEST_FAILURES
+ 
+--- a/qla2x00t/qla2x00-target/Makefile
++++ b/qla2x00t/qla2x00-target/Makefile
+@@ -42,7 +42,7 @@
+ 
+ EXTRA_CFLAGS += -DCONFIG_SCST_EXTRACHECKS 
+ #EXTRA_CFLAGS += -DCONFIG_SCST_TRACING
+-EXTRA_CFLAGS += -DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions
++EXTRA_CFLAGS += -g -fno-inline -fno-inline-functions
+ #EXTRA_CFLAGS += -DCONFIG_QLA_TGT_DEBUG_WORK_IN_THREAD
+ #EXTRA_CFLAGS += -DCONFIG_QLA_TGT_DEBUG_SRR
+ 
+@@ -147,8 +147,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 
+ 2debug:
+@@ -156,8 +156,8 @@
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 
+ 2perf:
+@@ -165,8 +165,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 
+ disable_proc:
+--- a/scst/src/Makefile
++++ b/scst/src/Makefile
+@@ -145,7 +145,7 @@
+ 
+ #EXTRA_CFLAGS += -DCONFIG_SCST_TRACING
+ 
+-EXTRA_CFLAGS += -DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions
++EXTRA_CFLAGS += -g -fno-inline -fno-inline-functions
+ #EXTRA_CFLAGS += -DCONFIG_SCST_DEBUG_RETRY
+ #EXTRA_CFLAGS += -DCONFIG_SCST_DEBUG_OOM
+ #EXTRA_CFLAGS += -DCONFIG_SCST_DEBUG_SN
+@@ -172,8 +172,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 	cd $(DEV_HANDLERS_DIR) && $(MAKE) $@
+ 
+@@ -182,8 +182,8 @@
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 	cd $(DEV_HANDLERS_DIR) && $(MAKE) $@
+ 
+@@ -192,8 +192,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 	cd $(DEV_HANDLERS_DIR) && $(MAKE) $@
+ 
+--- a/scst/src/dev_handlers/Makefile
++++ b/scst/src/dev_handlers/Makefile
+@@ -78,7 +78,7 @@
+ EXTRA_CFLAGS += -DCONFIG_SCST_EXTRACHECKS
+ 
+ #EXTRA_CFLAGS += -DCONFIG_SCST_TRACING
+-EXTRA_CFLAGS += -DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions
++EXTRA_CFLAGS += -g -fno-inline -fno-inline-functions
+ 
+ clean:
+ 	rm -f *.o *.ko .*.cmd *.mod.c .*.d .depend Modules.symvers \
+@@ -93,8 +93,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 
+ 2debug:
+@@ -102,8 +102,8 @@
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 
+ 2perf:
+@@ -111,8 +111,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 
+ .PHONY: all install uninstall clean extraclean 2release 2debug 2perf
+--- a/scst_local/Makefile
++++ b/scst_local/Makefile
+@@ -22,7 +22,7 @@
+ 
+ #EXTRA_CFLAGS += -DCONFIG_SCST_TRACING
+ 
+-EXTRA_CFLAGS += -DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions
++EXTRA_CFLAGS += -g -fno-inline -fno-inline-functions
+ 
+ ifeq ($(KVER),)
+   ifeq ($(KDIR),)
+@@ -86,8 +86,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 
+ 2debug:
+@@ -95,8 +95,8 @@
+ 	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 
+ 2perf:
+@@ -104,8 +104,8 @@
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" Makefile >/dev/null
+ 	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ Makefile
+ 	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING" Makefile >/dev/null
+-	sed -i.aa s/"^E\?XTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions"/ Makefile
+-	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_DEBUG -g -fno-inline -fno-inline-functions" Makefile >/dev/null
++	sed -i.aa s/"^E\?XTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/"#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions"/ Makefile
++	grep "^#EXTRA_CFLAGS += \-g -fno-inline -fno-inline-functions" Makefile >/dev/null
+ 	rm Makefile.aa
+ 
+ release-archive:
+--- a/srpt/src/Makefile
++++ b/srpt/src/Makefile
+@@ -2,7 +2,7 @@
+ 
+ -include $(SUBDIRS)/../build_mode
+ 
+-SRPTFLAGS = -DCONFIG_SCST_TRACING -DCONFIG_SCST_DEBUG \
++SRPTFLAGS = -DCONFIG_SCST_TRACING \
+ 	-DCONFIG_SCST_EXTRACHECKS -fno-inline -fno-inline-functions
+ SRPTFLAGSRELEASE = -DCONFIG_SCST_TRACING
+ SRPTFLAGSPERF =

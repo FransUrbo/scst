@@ -1,0 +1,268 @@
+Index: scst.svn/fcst/Makefile
+===================================================================
+--- scst.svn.orig/fcst/Makefile	2013-12-29 11:03:51.835781848 +0100
++++ scst.svn/fcst/Makefile	2013-12-29 11:04:15.763790941 +0100
+@@ -27,7 +27,7 @@
+ #
+ 
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ ifeq ($(KVER),)
+Index: scst.svn/iscsi-scst/Makefile
+===================================================================
+--- scst.svn.orig/iscsi-scst/Makefile	2013-12-29 11:03:51.843782942 +0100
++++ scst.svn/iscsi-scst/Makefile	2013-12-29 11:04:15.771790572 +0100
+@@ -6,7 +6,7 @@
+ # unless it's something special (not a .c file).
+ 
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ SHELL=/bin/bash
+Index: scst.svn/iscsi-scst/Makefile_user_space_only
+===================================================================
+--- scst.svn.orig/iscsi-scst/Makefile_user_space_only	2013-12-29 11:03:51.839782395 +0100
++++ scst.svn/iscsi-scst/Makefile_user_space_only	2013-12-29 11:04:15.771790572 +0100
+@@ -6,7 +6,7 @@
+ # unless it's something special (not a .c file).
+ 
+ SUBDIRS := $(shell pwd)
+-SBINDIR := /usr/local/sbin
++SBINDIR := /usr/sbin
+ INITDIR := /etc/init.d
+ RCDIR := /etc/rc.d
+ 
+Index: scst.svn/iscsi-scst/resource_agents/SCSTTarget
+===================================================================
+--- scst.svn.orig/iscsi-scst/resource_agents/SCSTTarget	2013-12-29 11:03:51.843782942 +0100
++++ scst.svn/iscsi-scst/resource_agents/SCSTTarget	2013-12-29 11:04:15.771790572 +0100
+@@ -38,7 +38,7 @@
+ 
+ # Lockfile, used for selecting a target ID
+ LOCKFILE=${HA_RSCTMP}/SCSTTarget-${OCF_RESKEY_implementation}.lock
+-ISCSI_DAEMON="/usr/local/sbin/iscsi-scstd"
++ISCSI_DAEMON="/usr/sbin/iscsi-scstd"
+ SYSFS_PATH="/sys/kernel/scst_tgt/targets/iscsi"
+ SCST_BASE="/sys/kernel/scst_tgt"
+ ISCSI_BASE="${SCST_BASE}/targets/iscsi"
+Index: scst.svn/iscsi-scst/usr/Makefile
+===================================================================
+--- scst.svn.orig/iscsi-scst/usr/Makefile	2013-12-29 11:03:51.843782942 +0100
++++ scst.svn/iscsi-scst/usr/Makefile	2013-12-29 11:04:15.771790572 +0100
+@@ -16,7 +16,7 @@
+ #  GNU General Public License for more details.
+ 
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ SRCS_D = iscsid.c iscsi_scstd.c conn.c session.c target.c message.c ctldev.c \
+Index: scst.svn/mpt/Makefile
+===================================================================
+--- scst.svn.orig/mpt/Makefile	2013-12-29 11:03:51.835781848 +0100
++++ scst.svn/mpt/Makefile	2013-12-29 11:04:15.763790941 +0100
+@@ -21,7 +21,7 @@
+ #
+ 
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ #SCST_INC_DIR := $(PREFIX)/include/scst
+Index: scst.svn/mvsas_tgt/Makefile
+===================================================================
+--- scst.svn.orig/mvsas_tgt/Makefile	2013-12-29 11:03:51.835781848 +0100
++++ scst.svn/mvsas_tgt/Makefile	2013-12-29 11:04:15.767790756 +0100
+@@ -26,7 +26,7 @@
+ #
+ 
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ ifeq ($(KVER),)
+@@ -82,7 +82,7 @@
+ ins:
+ 	./config
+ 	insmod mvsas.ko
+-	
++
+ SCST_MOD_VERS := $(shell ls $(SCST_DIR)/Modules.symvers 2>/dev/null)
+ ifneq ($(SCST_MOD_VERS),)
+ Modules.symvers: $(SCST_DIR)/Modules.symvers
+Index: scst.svn/qla2x00t/doc/qla2x00t-howto.html
+===================================================================
+--- scst.svn.orig/qla2x00t/doc/qla2x00t-howto.html	2013-12-29 11:03:51.835781848 +0100
++++ scst.svn/qla2x00t/doc/qla2x00t-howto.html	2013-12-29 11:04:15.767790756 +0100
+@@ -166,7 +166,7 @@
+   Insert the kernel modules.<br>  The kernel modules have been installed in
+   '/lib/modules/`your_kernel_version`/extra'.<br>  In addition, scst.h,
+   scst_debug.h as well as Module.symvers or Modules.symvers have been copied
+-  to '/usr/local/include/scst'.<br> The first file contains all SCST's public
++  to '/usr/include/scst'.<br> The first file contains all SCST's public
+   interfaces used by target drivers. The other files allow target drivers to
+   generate debug messages and support the kernel module build process.
+ 
+Index: scst.svn/qla2x00t/qla2x00-target/Makefile
+===================================================================
+--- scst.svn.orig/qla2x00t/qla2x00-target/Makefile	2013-12-29 11:03:51.839782395 +0100
++++ scst.svn/qla2x00t/qla2x00-target/Makefile	2013-12-29 11:04:15.767790756 +0100
+@@ -29,7 +29,7 @@
+ #
+ 
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ SHELL=/bin/bash
+Index: scst.svn/scst.spec.in
+===================================================================
+--- scst.svn.orig/scst.spec.in	2013-12-29 11:03:51.835781848 +0100
++++ scst.svn/scst.spec.in	2013-12-29 11:04:15.767790756 +0100
+@@ -84,12 +84,12 @@
+ 
+ %pre
+ # Remove files installed by "make install"
+-rm -f /usr/local/man/man5/iscsi-scstd.conf.5
+-rm -f /usr/local/man/man8/iscsi-scst-adm.8
+-rm -f /usr/local/man/man8/iscsi-scstd.8
+-rm -f /usr/local/sbin/iscsi-scst-adm
+-rm -f /usr/local/sbin/iscsi-scstd
+-rm -rf /usr/local/include/scst
++rm -f /usr/man/man5/iscsi-scstd.conf.5
++rm -f /usr/man/man8/iscsi-scst-adm.8
++rm -f /usr/man/man8/iscsi-scstd.8
++rm -f /usr/sbin/iscsi-scst-adm
++rm -f /usr/sbin/iscsi-scstd
++rm -rf /usr/include/scst
+ 
+ %post
+ /sbin/depmod -a %{kver}
+Index: scst.svn/scst/README
+===================================================================
+--- scst.svn.orig/scst/README	2013-12-29 11:03:51.839782395 +0100
++++ scst.svn/scst/README	2013-12-29 11:04:15.771790572 +0100
+@@ -99,7 +99,7 @@
+ device handlers. To install them type 'make scst_install'. The driver
+ modules will be installed in '/lib/modules/`you_kernel_version`/extra'.
+ In addition, scst.h, scst_debug.h as well as Module.symvers or
+-Modules.symvers will be copied to '/usr/local/include/scst'. The first
++Modules.symvers will be copied to '/usr/include/scst'. The first
+ file contains all SCST's public data definition, which are used by
+ target drivers. The other ones support debug messages logging and build
+ process.
+Index: scst.svn/scst/src/Makefile
+===================================================================
+--- scst.svn.orig/scst/src/Makefile	2013-12-29 11:03:51.839782395 +0100
++++ scst.svn/scst/src/Makefile	2013-12-29 11:04:15.767790756 +0100
+@@ -29,7 +29,7 @@
+ #
+ 
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ SHELL=/bin/bash
+Index: scst.svn/scst_local/Makefile
+===================================================================
+--- scst.svn.orig/scst_local/Makefile	2013-12-29 11:03:51.847783488 +0100
++++ scst.svn/scst_local/Makefile	2013-12-29 11:04:15.775790479 +0100
+@@ -3,7 +3,7 @@
+ #
+ 
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ SHELL=/bin/bash
+Index: scst.svn/scstadmin/Makefile
+===================================================================
+--- scst.svn.orig/scstadmin/Makefile	2013-12-29 11:03:51.847783488 +0100
++++ scst.svn/scstadmin/Makefile	2013-12-29 11:04:15.775790479 +0100
+@@ -1,5 +1,5 @@
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ VERSION = $(shell echo -n "$$(sed -n 's/^[[:blank:]]*\$$VERSION[[:blank:]]*=[[:blank:]]*[\"'"'"']\([0-9.]*\)[\"'"'"'];$$/\1/p' scstadmin/scst-*/lib/SCST/SCST.pm).";	\
+Index: scst.svn/scstadmin/scstadmin.procfs/Makefile
+===================================================================
+--- scst.svn.orig/scstadmin/scstadmin.procfs/Makefile	2013-12-29 11:03:51.843782942 +0100
++++ scst.svn/scstadmin/scstadmin.procfs/Makefile	2013-12-29 11:04:15.771790572 +0100
+@@ -1,5 +1,5 @@
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ MODULE_VERSION = 0.8.22
+Index: scst.svn/scstadmin/scstadmin.spec.in
+===================================================================
+--- scst.svn.orig/scstadmin/scstadmin.spec.in	2013-12-29 11:03:51.843782942 +0100
++++ scst.svn/scstadmin/scstadmin.spec.in	2013-12-29 11:04:15.775790479 +0100
+@@ -57,11 +57,11 @@
+ rm -rf %{buildroot}
+ 
+ %pre
+-rm -f /usr/local/sbin/scstadmin
+-rm -f /usr/local/man/man1/scstadmin.1*
+-rm -f /usr/local/man/man3/SCST::SCST.3pm*
+-rm -f /usr/local/man/man5/scst.5*
+-rm -f /usr/local/man/man5/scst.conf.5*
++rm -f /usr/sbin/scstadmin
++rm -f /usr/man/man1/scstadmin.1*
++rm -f /usr/man/man3/SCST::SCST.3pm*
++rm -f /usr/man/man5/scst.5*
++rm -f /usr/man/man5/scst.conf.5*
+ 
+ %files
+ %defattr(-,root,root)
+Index: scst.svn/scstadmin/scstadmin.sysfs/Makefile
+===================================================================
+--- scst.svn.orig/scstadmin/scstadmin.sysfs/Makefile	2013-12-29 11:03:51.843782942 +0100
++++ scst.svn/scstadmin/scstadmin.sysfs/Makefile	2013-12-29 11:04:15.775790479 +0100
+@@ -1,5 +1,5 @@
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ MODULE_VERSION = 0.9.10
+Index: scst.svn/srpt/Makefile
+===================================================================
+--- scst.svn.orig/srpt/Makefile	2013-12-29 11:03:51.831781472 +0100
++++ scst.svn/srpt/Makefile	2013-12-29 11:04:15.763790941 +0100
+@@ -2,7 +2,7 @@
+ # Makefile for ib_srpt.ko.
+ #
+ ifndef PREFIX
+-	PREFIX=/usr/local
++	PREFIX=/usr
+ endif
+ 
+ SCST_INC_DIR := $(shell if [ -e "$$PWD/../scst" ];			\
+Index: scst.svn/usr/fileio/Makefile
+===================================================================
+--- scst.svn.orig/usr/fileio/Makefile	2013-12-29 11:03:51.835781848 +0100
++++ scst.svn/usr/fileio/Makefile	2013-12-29 11:04:15.767790756 +0100
+@@ -16,7 +16,7 @@
+ #  GNU General Public License for more details.
+ 
+ ifndef PREFIX
+-        PREFIX=/usr/local
++        PREFIX=/usr
+ endif
+ 
+ SHELL=/bin/bash

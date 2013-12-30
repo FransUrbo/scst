@@ -1,0 +1,26 @@
+Source: scst
+Section: kernel
+Priority: extra
+Maintainer: Turbo Fredriksson <turbo@bayour.com>
+Build-Depends: autotools-dev,
+ autoconf,
+ autogen,
+ automake,
+ debhelper (>= 9),
+ libtool,
+ linux-headers-_KVERS_
+Standards-Version: 3.9.4
+Homepage: http://scst.sourceforge.net
+
+Package: kmod-scst-_KVERS_
+Architecture: _ARCH_
+Provides: scst-dkms
+Replaces: scst-dkms
+Depends: linux-image-_IMGVER_ (= _IMGVER_)
+Description: kernel modules for SCST  (kernel _KVERS_)
+ This package contains the compiled kernel module for _KVERS_
+ .
+ If you have compiled your own kernel, you will most likely need to build
+ your own scst modules. The scst-source package has been
+ provided for use with the Debian kernel-package utility to produce a
+ version of scst modules for your kernel.
