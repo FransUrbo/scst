@@ -1,0 +1,4 @@
+prefix-usr.patch
+debug-off.patch
+kdir.patch
+scst_itf_ver.h-rename
