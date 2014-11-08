@@ -7,7 +7,7 @@ git checkout --orphan svn
 git rm --cached README.md
 rm *
 svn checkout svn://svn.code.sf.net/p/scst/svn/trunk .
-git add -f * .svn
+git add -f * `find -type d -name .svn`
 svn info > info.msg
 git commit -F info.msg
 git tag upstream/`grep ^Revision: info.msg  | sed 's@.*: @@'`
