@@ -5,9 +5,9 @@ set -e
 # Checkout SVN trunc and create upstream GIT tag
 git checkout --orphan svn
 git rm --cached README.md
-rm README.md
+rm *
 svn checkout svn://svn.code.sf.net/p/scst/svn/trunk .
-git add * .svn
+git add -f * .svn
 svn info > info.msg
 git commit -F info.msg
 git tag upstream/`grep ^Revision: info.msg  | sed 's@.*: @@'`
