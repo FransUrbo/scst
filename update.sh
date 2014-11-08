@@ -4,7 +4,7 @@ set -e
 
 # Checkout SVN trunc and create upstream GIT tag
 git checkout --orphan svn
-git rm --cached README.md
+git rm --cached *
 rm *
 svn checkout svn://svn.code.sf.net/p/scst/svn/trunk .
 git add -f * `find -type d -name .svn`
