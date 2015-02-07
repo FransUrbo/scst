@@ -7,7 +7,7 @@ git checkout --orphan svn
 git rm --cached *
 rm *
 svn checkout svn://svn.code.sf.net/p/scst/svn/trunk .
-git add -f * `find -type d -name .svn`
+git add -f * .svn
 svn info > info.msg
 git commit -F info.msg
 git tag upstream/`grep ^Revision: info.msg  | sed 's@.*: @@'`
@@ -32,6 +32,11 @@ EOF
 cat debian/changelog.new debian/changelog.old > debian/changelog
 rm debian/changelog.*
 git add debian/changelog
+cat <<EOF > debian/gbp.conf
+[DEFAULT]
+upstream-tag=upstream/`grep ^Revision: info.msg  | sed 's@.*: @@'`
+EOF
+git add debian/gbp.conf
 git commit -m "Import debian dir + updated to svn`grep ^Revision: info.msg  | sed 's@.*: @@'`"
 git tag r`grep ^Revision: info.msg  | sed 's@.*: @@'`
 
