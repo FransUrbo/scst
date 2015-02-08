@@ -1,0 +1,22 @@
+--- a/iscsi-scst/kernel/iscsi.h
++++ b/iscsi-scst/kernel/iscsi.h
+@@ -284,7 +284,7 @@
+ 	 * thread.
+ 	 */
+ 	struct iscsi_cmnd *read_cmnd;
+-	struct msghdr read_msg;
++	struct user_msghdr read_msg;
+ 	u32 read_size;
+ 	int read_state;
+ 	struct iovec *read_iov;
+--- a/iscsi-scst/kernel/nthread.c
++++ b/iscsi-scst/kernel/nthread.c
+@@ -680,7 +680,7 @@
+ {
+ 	int res;
+ 	mm_segment_t oldfs;
+-	struct msghdr msg;
++	struct user_msghdr msg;
+ 	int first_len;
+ 
+ 	EXTRACHECKS_BUG_ON(conn->read_cmnd == NULL);
