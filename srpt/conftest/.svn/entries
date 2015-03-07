@@ -1,0 +1,37 @@
+10
+
+dir
+6142
+svn://svn.code.sf.net/p/scst/svn/trunk/srpt/conftest
+svn://svn.code.sf.net/p/scst/svn
+
+
+
+2015-03-02T14:28:25.143954Z
+6138
+bvassche
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d57e44dd-8a1f-0410-8b47-8ef2f437770f
+
+gid_change
+dir
+
+kcflags
+dir
+
+pre_cflags
+dir
+
