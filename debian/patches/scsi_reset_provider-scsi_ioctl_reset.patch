@@ -1,0 +1,41 @@
+--- a/scst/src/scst_targ.c
++++ b/scst/src/scst_targ.c
+@@ -38,6 +38,10 @@
+ #include "scst_priv.h"
+ #include "scst_pres.h"
+ 
++#if !defined(SCSI_TRY_RESET_TARGET) && !defined(SCSI_TRY_RESET_BUS)
++#include <scsi/sg.h>
++#endif
++
+ static void scst_cmd_set_sn(struct scst_cmd *cmd);
+ static int __scst_init_cmd(struct scst_cmd *cmd);
+ static struct scst_cmd *__scst_find_cmd_by_tag(struct scst_session *sess,
+@@ -5959,11 +5963,15 @@
+ 		/* dev->scsi_dev must be non-NULL here */
+ 		TRACE(TRACE_MGMT, "Resetting host %d bus ",
+ 			dev->scsi_dev->host->host_no);
++#if !defined(SCSI_TRY_RESET_TARGET) && !defined(SCSI_TRY_RESET_BUS)
++		rc = scsi_ioctl_reset(dev->scsi_dev, SG_SCSI_RESET_TARGET);
++#else
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 26)
+ 		rc = scsi_reset_provider(dev->scsi_dev, SCSI_TRY_RESET_TARGET);
+ #else
+ 		rc = scsi_reset_provider(dev->scsi_dev, SCSI_TRY_RESET_BUS);
+ #endif
++#endif
+ 		TRACE(TRACE_MGMT, "Result of host %d target reset: %s",
+ 		      dev->scsi_dev->host->host_no,
+ 		      (rc == SUCCESS) ? "SUCCESS" : "FAILED");
+@@ -6022,7 +6030,11 @@
+ 	if (dev->scsi_dev != NULL) {
+ 		TRACE(TRACE_MGMT, "Resetting host %d bus ",
+ 		      dev->scsi_dev->host->host_no);
++#if !defined(SCSI_TRY_RESET_TARGET) && !defined(SCSI_TRY_RESET_DEVICE)
++		rc = scsi_ioctl_reset(dev->scsi_dev, SG_SCSI_RESET_DEVICE);
++#else
+ 		rc = scsi_reset_provider(dev->scsi_dev, SCSI_TRY_RESET_DEVICE);
++#endif
+ 		TRACE(TRACE_MGMT, "scsi_reset_provider(%s) returned %d",
+ 		      dev->virt_name, rc);
+ #if 0

@@ -1,0 +1,8 @@
+prefix-usr.patch
+debug-off.patch
+kdir.patch
+scst_itf_ver.h-rename
+scsi_reset_provider-scsi_ioctl_reset.patch
+disable_qla2x00t_build.patch
+file_inode.patch
+msghdr-msg_iov.patch

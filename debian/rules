@@ -1,0 +1,157 @@
+#!/usr/bin/make -f
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Need to update this manually for now
+DKMSMODVER=3.0.0.2
+
+SHELL=/bin/bash
+TMPROOT=$(CURDIR)/debian/tmp
+DESTDIR=$(TMPROOT)
+BINDIR=/usr/bin
+SBINDIR=/usr/sbin
+MANDIR=/usr/share/man
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
+	confflags += --build $(DEB_HOST_GNU_TYPE)
+else
+	confflags += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
+endif
+
+ifndef DEB_HOST_ARCH
+DEB_HOST_ARCH = $(shell dpkg-architecture -qDEB_HOST_ARCH)
+endif
+
+ifndef KVERS
+KVERS=$(shell uname -r | sed 's/-$(DEB_HOST_ARCH)//')
+endif
+
+KIMGVER := $(shell dpkg -s linux-image-$(KVERS)-$(DEB_HOST_ARCH) 2> /dev/null | grep ^Version | sed 's/.*: //')
+ifndef KIMGVER
+KIMGVER := $(shell dpkg -s linux-image-$(KVERS) | grep ^Version | sed 's/.*: //')
+endif
+
+non_epoch_version=$(shell echo $(KVERS) | perl -pe 's/^\d+://')
+PACKAGE=scst
+pmodules = kmod-$(PACKAGE)-$(non_epoch_version)
+
+include /usr/share/quilt/quilt.make
+
+do_prep:
+	for templ in $(wildcard $(CURDIR)/debian/*_KVERS_*.in); do \
+		sed -e 's/##KVERS##/$(KVERS)/g ; s/#KVERS#/$(KVERS)/g ; s/_KVERS_/$(KVERS)/g ; s/##KDREV##/$(KDREV)/g ; s/#KDREV#/$(KDREV)/g ; s/_KDREV_/$(KDREV)/g ; s/_ARCH_/$(DEB_HOST_ARCH)/' \
+		< $$templ > `echo $$templ | sed -e 's/_KVERS_/$(KVERS)/g ; s/_ARCH_/$(DEB_HOST_ARCH)/g ; s/\.in$$//'` ; \
+	done
+
+	sed -e 's/##KVERS##/$(KVERS)/g ; s/#KVERS#/$(KVERS)/g ; s/_KVERS_/$(KVERS)/g ; s/##KDREV##/$(KDREV)/g ; s/#KDREV#/$(KDREV)/g ; s/_KDREV_/$(KDREV)/g ; s/_ARCH_/$(DEB_HOST_ARCH)/g ; s/_IMGVER_/$(KIMGVER)/g' \
+	< debian/control.in > debian/control
+
+	sed -e 's/##KVERS##/$(KVERS)/g ; s/#KVERS#/$(KVERS)/g ; s/_KVERS_/$(KVERS)/g ; s/##KDREV##/$(KDREV)/g ; s/#KDREV#/$(KDREV)/g ; s/_KDREV_/$(KDREV)/g ; s/_ARCH_/$(DEB_HOST_ARCH)/g ; s/_IMGVER_/$(KIMGVER)/g' \
+	< debian/control.modules.in >> debian/control
+
+clean: do_prep do_clean unpatch
+do_clean:
+	dh_testdir
+	dh_clean
+	$(MAKE) -C scstadmin clean
+	$(MAKE) -C iscsi-scst/usr clean
+	$(MAKE) -C fcst clean
+	$(MAKE) -C scst_local clean
+
+install: build modules-build
+	dh_installdirs
+	$(MAKE) DESTDIR=$(TMPROOT) install
+	$(MAKE) DESTDIR=$(TMPROOT) usr_install
+	$(MAKE) DESTDIR=$(TMPROOT) -C scstadmin install
+
+	#hacks
+	mv debian/tmp/usr/bin/scst/fileio_tgt debian/tmp/usr/bin/
+	rmdir debian/tmp/usr/bin/scst
+
+	# fix incorrect man location
+	mkdir -p $(TMPROOT)/usr/share/man
+	mv -f $(TMPROOT)/usr/man/* $(TMPROOT)/usr/share/man
+
+	# copy example scst.conf
+	install -vD -m 644 debian/scst.conf $(DESTDIR)/etc/scst.conf
+
+	# process scst-dkms manually
+	for f in debian/dkms.conf debian/scst-dkms.postinst debian/scst-dkms.prerm;do \
+		sed "s|@DKMSNAME@|scst|g" $$f.in > $$f ;\
+		sed -i "s|@DKMSMODVER@|$(DKMSMODVER)|g" $$f ;\
+	done
+	install -vD -m 644 debian/Makefile-dkms $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/Makefile
+	install -vD -m 644 debian/dkms.conf $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/dkms.conf
+	cp -a scst $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
+	mkdir $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/iscsi-scst
+	cp -a iscsi-scst/{Makefile,include,kernel} $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/iscsi-scst/
+	cp -a scst_local $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
+	cp -a qla2x00t $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
+	cp -a fcst $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
+	cp -a srpt $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
+
+	(cd $(TMPROOT)/usr/local && find | cpio -vpd .. && cd .. && rm -Rf local)
+
+	# install files
+	dh_installman
+	dh_install --sourcedir=$(TMPROOT)
+
+build: patch
+	$(MAKE) all
+	$(MAKE) -C scstadmin
+
+binary-indep: install
+
+binary-arch: install binary-modules
+	dh_testdir -a
+	dh_testroot -a
+	dh_installchangelogs -p scstadmin -a scstadmin/ChangeLog
+	dh_strip -a
+	dh_compress -a
+	dh_fixperms -a
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary-modules: build modules-build
+	dh_install -p${pmodules}
+	dh_installdocs -p${pmodules}
+	dh_installchangelogs -p${pmodules}
+	dh_compress -p${pmodules}
+	dh_strip -p${pmodules}
+	dh_fixperms -p${pmodules}
+	dh_installdeb -p${pmodules}
+	dh_gencontrol -p${pmodules}
+	dh_md5sums -p${pmodules}
+
+	dh_builddeb -p${pmodules}
+
+modules-build:
+	# Build modules
+	$(MAKE) lsi
+	$(MAKE) mvsas
+	$(MAKE) fcst
+	$(MAKE) srpt
+
+	BUILD_2X_MODULE=y CONFIG_SCSI_QLA_FC=y CONFIG_SCSI_QLA2XXX_TARGET=y $(MAKE) -C qla2x00t
+	BUILD_2X_MODULE=y CONFIG_SCSI_QLA_FC=y CONFIG_SCSI_QLA2XXX_TARGET=y $(MAKE) -C qla2x00t/qla2x00-target
+
+binary: binary-indep binary-arch
+
+.PHONY: binary binary-arch binary-indep clean checkroot
