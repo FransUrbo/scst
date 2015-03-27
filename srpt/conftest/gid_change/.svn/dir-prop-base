@@ -1,0 +1,14 @@
+K 10
+svn:ignore
+V 149
+.built-in.o.cmd
+.gid_change.ko.cmd
+.gid_change.mod.o.cmd
+.gid_change.o.cmd
+.tmp_versions
+Module.symvers
+gid_change.ko
+gid_change.mod.c
+modules.order
+
+END
