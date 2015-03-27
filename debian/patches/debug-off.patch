@@ -1,5 +1,7 @@
---- a/fcst/Makefile
-+++ b/fcst/Makefile
+Index: scst_svn/fcst/Makefile
+===================================================================
+--- scst_svn.orig/fcst/Makefile	2015-03-27 17:53:48.221364264 +0100
++++ scst_svn/fcst/Makefile	2015-03-27 17:53:57.985241515 +0100
 @@ -35,7 +35,7 @@
  set_var = $(shell { if [ -e "$(1)" ]; then grep -v '^$(2)=' "$(1)"; fi; echo "$(2)=$(3)"; } >/tmp/$(1)-$$$$.tmp && mv /tmp/$(1)-$$$$.tmp $(1))
  
@@ -9,8 +11,10 @@
  	-DCONFIG_SCST_EXTRACHECKS -fno-inline -fno-inline-functions
  FCSTFLAGSRELEASE = -DCONFIG_SCST_TRACING
  FCSTFLAGSPERF =
---- a/iscsi-scst/Makefile
-+++ b/iscsi-scst/Makefile
+Index: scst_svn/iscsi-scst/Makefile
+===================================================================
+--- scst_svn.orig/iscsi-scst/Makefile	2015-03-27 17:53:48.241364012 +0100
++++ scst_svn/iscsi-scst/Makefile	2015-03-27 17:53:57.985241515 +0100
 @@ -120,8 +120,8 @@
  	grep "^#EXTRA_CFLAGS += \-DCONFIG_SCST_EXTRACHECKS" $(KMOD)/Makefile >/dev/null
  	sed -i.aa s/"^#\?EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/"EXTRA_CFLAGS += \-DCONFIG_SCST_TRACING"/ $(KMOD)/Makefile
@@ -44,8 +48,10 @@
  	rm $(KMOD)/Makefile.aa
  
  disable_proc:
---- a/iscsi-scst/kernel/Makefile
-+++ b/iscsi-scst/kernel/Makefile
+Index: scst_svn/iscsi-scst/kernel/Makefile
+===================================================================
+--- scst_svn.orig/iscsi-scst/kernel/Makefile	2015-03-27 17:53:43.545423049 +0100
++++ scst_svn/iscsi-scst/kernel/Makefile	2015-03-27 17:53:57.985241515 +0100
 @@ -31,7 +31,7 @@
  
  EXTRA_CFLAGS += -DCONFIG_SCST_EXTRACHECKS
@@ -55,8 +61,10 @@
  
  #EXTRA_CFLAGS += -DCONFIG_SCST_ISCSI_DEBUG_DIGEST_FAILURES
  
---- a/qla2x00t/qla2x00-target/Makefile
-+++ b/qla2x00t/qla2x00-target/Makefile
+Index: scst_svn/qla2x00t/qla2x00-target/Makefile
+===================================================================
+--- scst_svn.orig/qla2x00t/qla2x00-target/Makefile	2015-03-27 17:53:48.241364012 +0100
++++ scst_svn/qla2x00t/qla2x00-target/Makefile	2015-03-27 17:53:57.985241515 +0100
 @@ -35,7 +35,7 @@
  
  EXTRA_CFLAGS += -DCONFIG_SCST_EXTRACHECKS 
@@ -99,8 +107,10 @@
  	rm Makefile.aa
  
  disable_proc:
---- a/scst/src/dev_handlers/Makefile
-+++ b/scst/src/dev_handlers/Makefile
+Index: scst_svn/scst/src/dev_handlers/Makefile
+===================================================================
+--- scst_svn.orig/scst/src/dev_handlers/Makefile	2015-03-27 17:53:43.545423049 +0100
++++ scst_svn/scst/src/dev_handlers/Makefile	2015-03-27 17:53:57.985241515 +0100
 @@ -90,7 +90,7 @@
  EXTRA_CFLAGS += -DCONFIG_SCST_EXTRACHECKS
  
@@ -143,8 +153,10 @@
  	rm Makefile.aa
  
  .PHONY: all install uninstall clean extraclean 2release 2debug 2perf
---- a/scst_local/Makefile
-+++ b/scst_local/Makefile
+Index: scst_svn/scst_local/Makefile
+===================================================================
+--- scst_svn.orig/scst_local/Makefile	2015-03-27 17:53:48.241364012 +0100
++++ scst_svn/scst_local/Makefile	2015-03-27 17:53:57.985241515 +0100
 @@ -18,7 +18,7 @@
  
  #EXTRA_CFLAGS += -DCONFIG_SCST_TRACING
@@ -187,9 +199,11 @@
  	rm Makefile.aa
  
  release-archive:
---- a/srpt/src/Makefile
-+++ b/srpt/src/Makefile
-@@ -2,7 +2,7 @@
+Index: scst_svn/srpt/src/Makefile
+===================================================================
+--- scst_svn.orig/srpt/src/Makefile	2015-03-27 17:53:43.545423049 +0100
++++ scst_svn/srpt/src/Makefile	2015-03-27 17:53:57.985241515 +0100
+@@ -3,7 +3,7 @@
  
  -include $(SUBDIRS)/../build_mode
  
