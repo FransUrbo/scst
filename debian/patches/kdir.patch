@@ -1,0 +1,78 @@
+--- a/fcst/Makefile
++++ b/fcst/Makefile
+@@ -62,7 +62,9 @@
+ 	make -s -C $(KDIR) kernelversion))
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ ifeq ($(INSTALL_MOD_PATH),)
+--- a/mpt/Makefile
++++ b/mpt/Makefile
+@@ -50,7 +50,9 @@
+     endif
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ ifeq ($(INSTALL_MOD_PATH),)
+--- a/mvsas_tgt/Makefile
++++ b/mvsas_tgt/Makefile
+@@ -43,7 +43,9 @@
+     endif
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ ifeq ($(INSTALL_MOD_PATH),)
+--- a/qla2x00t/Makefile
++++ b/qla2x00t/Makefile
+@@ -41,7 +41,9 @@
+ 	make -s -C $(KDIR) kernelversion))
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ ifeq ($(INSTALL_MOD_PATH),)
+--- a/qla2x00t/qla2x00-target/Makefile
++++ b/qla2x00t/qla2x00-target/Makefile
+@@ -53,7 +53,9 @@
+     endif
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ ifeq ($(INSTALL_MOD_PATH),)
+--- a/scst_local/Makefile
++++ b/scst_local/Makefile
+@@ -39,7 +39,9 @@
+ 	make -s -C $(KDIR) kernelversion))
+   endif
+ else
+-  KDIR := /lib/modules/$(KVER)/build
++  ifeq ($(KDIR),)
++    KDIR := /lib/modules/$(KVER)/build
++  endif
+ endif
+ 
+ ifeq ($(INSTALL_MOD_PATH),)
