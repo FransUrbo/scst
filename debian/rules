@@ -110,9 +110,11 @@ install: build modules-build
 	dh_installman
 	dh_install --sourcedir=$(TMPROOT)
 
-build: patch
+build: build-stamp
+build-stamp: patch
 	$(MAKE) all
 	$(MAKE) -C scstadmin
+	touch build-stamp
 
 binary-indep: install
 
