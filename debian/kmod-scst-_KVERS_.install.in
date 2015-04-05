@@ -1,7 +1,5 @@
 usr/src/scst-*/fcst/fcst.ko				lib/modules/_KVERS_/extra/scst/
 usr/src/scst-*/iscsi-scst/kernel/iscsi-scst.ko		lib/modules/_KVERS_/extra/scst/
-usr/src/scst-*/qla2x00t/qla2x00-target/qla2x00tgt.ko	lib/modules/_KVERS_/extra/scst/
-usr/src/scst-*/qla2x00t/qla2xxx_scst.ko			lib/modules/_KVERS_/extra/scst/
 usr/src/scst-*/scst/src/dev_handlers/scst_cdrom.ko	lib/modules/_KVERS_/extra/scst/
 usr/src/scst-*/scst/src/dev_handlers/scst_changer.ko	lib/modules/_KVERS_/extra/scst/
 usr/src/scst-*/scst/src/dev_handlers/scst_disk.ko	lib/modules/_KVERS_/extra/scst/

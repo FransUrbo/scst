@@ -147,12 +147,12 @@ binary-modules: build modules-build
 modules-build:
 	# Build modules
 	$(MAKE) lsi
-	$(MAKE) mvsas
+#	$(MAKE) mvsas
 	$(MAKE) fcst
 	$(MAKE) srpt
 
-	BUILD_2X_MODULE=y CONFIG_SCSI_QLA_FC=y CONFIG_SCSI_QLA2XXX_TARGET=y $(MAKE) -C qla2x00t
-	BUILD_2X_MODULE=y CONFIG_SCSI_QLA_FC=y CONFIG_SCSI_QLA2XXX_TARGET=y $(MAKE) -C qla2x00t/qla2x00-target
+#	BUILD_2X_MODULE=y CONFIG_SCSI_QLA_FC=y CONFIG_SCSI_QLA2XXX_TARGET=y $(MAKE) -C qla2x00t
+#	BUILD_2X_MODULE=y CONFIG_SCSI_QLA_FC=y CONFIG_SCSI_QLA2XXX_TARGET=y $(MAKE) -C qla2x00t/qla2x00-target
 
 binary: binary-indep binary-arch
 
