@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 6.0.7),
  autogen,
  automake,
  libtool,
- linux-headers-_KVERS_-_ARCH_
+ linux-headers-_KVERS_
 Standards-Version: 3.8.3
 Homepage: http://scst.sourceforge.net
 
