@@ -1,0 +1,14 @@
+usr/src/scst-*/fcst/fcst.ko				lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/iscsi-scst/kernel/iscsi-scst.ko		lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/dev_handlers/scst_cdrom.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/dev_handlers/scst_changer.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/dev_handlers/scst_disk.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/dev_handlers/scst_modisk.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/dev_handlers/scst_processor.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/dev_handlers/scst_raid.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/dev_handlers/scst_tape.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/dev_handlers/scst_user.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/dev_handlers/scst_vdisk.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst/src/scst.ko				lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/scst_local/scst_local.ko			lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/srpt/src/ib_srpt.ko			lib/modules/_KVERS_/extra/scst/

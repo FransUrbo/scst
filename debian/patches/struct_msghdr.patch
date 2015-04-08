@@ -1,0 +1,53 @@
+--- a/iscsi-scst/kernel/iscsi.h
++++ b/iscsi-scst/kernel/iscsi.h
+@@ -284,7 +284,11 @@
+ 	 * thread.
+ 	 */
+ 	struct iscsi_cmnd *read_cmnd;
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0))
++	struct user_msghdr read_msg;
++#else
+ 	struct msghdr read_msg;
++#endif
+ 	u32 read_size;
+ 	int read_state;
+ 	struct iovec *read_iov;
+--- a/iscsi-scst/kernel/nthread.c
++++ b/iscsi-scst/kernel/nthread.c
+@@ -680,7 +680,11 @@
+ {
+ 	int res;
+ 	mm_segment_t oldfs;
+-	struct msghdr msg;
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0))
++	struct user_msghdr msg;
++#else
++	struct msghdr read_msg;
++#endif
+ 	int first_len;
+ 
+ 	EXTRACHECKS_BUG_ON(conn->read_cmnd == NULL);
+@@ -1591,7 +1595,11 @@
+ static int tx_ddigest(struct iscsi_cmnd *cmnd, int state)
+ {
+ 	int res, rest = cmnd->conn->write_size;
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0))
++	struct user_msghdr msg = {.msg_flags = MSG_NOSIGNAL | MSG_DONTWAIT};
++#else
+ 	struct msghdr msg = {.msg_flags = MSG_NOSIGNAL | MSG_DONTWAIT};
++#endif
+ 	struct kvec iov;
+ 
+ 	iscsi_extracheck_is_wr_thread(cmnd->conn);
+@@ -1635,7 +1643,11 @@
+ static int tx_padding(struct iscsi_cmnd *cmnd, int state)
+ {
+ 	int res, rest = cmnd->conn->write_size;
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0))
++	struct user_msghdr msg = {.msg_flags = MSG_NOSIGNAL | MSG_DONTWAIT};
++#else
+ 	struct msghdr msg = {.msg_flags = MSG_NOSIGNAL | MSG_DONTWAIT};
++#endif
+ 	struct kvec iov;
+ 	static const uint32_t padding;
+ 
