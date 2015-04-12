@@ -1,3 +1,12 @@
+scst (3.0.0~pre2+svn6182-ppa2) wheezy; urgency=high
+
+  * Include the mvsas.ko in the kmod package.
+  * Include the srpt modules in the kmod package.
+  * Include the mpt_scst.ko module in the kmod package.
+  * Generate scst_itf_ver.h.patch - usually created by generate-kernel-patch.
+
+ -- Turbo Fredriksson <turbo@bayour.com>  Mon, 13 Apr 2015 03:51:35 +0200
+
 scst (3.0.0~pre2+svn6182-ppa1) wheezy; urgency=high
 
   * Include debian directory from r6178

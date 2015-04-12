@@ -12,3 +12,7 @@ usr/src/scst-*/scst/src/dev_handlers/scst_vdisk.ko	lib/modules/_KVERS_/extra/scs
 usr/src/scst-*/scst/src/scst.ko				lib/modules/_KVERS_/extra/scst/
 usr/src/scst-*/scst_local/scst_local.ko			lib/modules/_KVERS_/extra/scst/
 usr/src/scst-*/srpt/src/ib_srpt.ko			lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/mpt/mpt_scst.ko				lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/srpt/conftest/gid_change/gid_change.ko	lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/srpt/src/ib_srpt.ko			lib/modules/_KVERS_/extra/scst/
+usr/src/scst-*/mvsas_tgt/mvsas.ko			lib/modules/_KVERS_/extra/scst/

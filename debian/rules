@@ -96,13 +96,12 @@ install: build modules-build
 	done
 	install -vD -m 644 debian/Makefile-dkms $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/Makefile
 	install -vD -m 644 debian/dkms.conf $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/dkms.conf
-	cp -a scst $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
+
 	mkdir $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/iscsi-scst
 	cp -a iscsi-scst/{Makefile,include,kernel} $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/iscsi-scst/
-	cp -a scst_local $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
-	cp -a qla2x00t $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
-	cp -a fcst $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
-	cp -a srpt $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/
+	for subdirs in scst_local qla2x00t fcst srpt mpt mvsas_tgt scst; do \
+		cp -a $$subdirs $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/; \
+	done
 
 	(cd $(TMPROOT)/usr/local && find | cpio -vpd .. && cd .. && rm -Rf local)
 
@@ -129,7 +128,8 @@ binary-arch: install binary-modules
 	dh_shlibdeps -a
 	dh_gencontrol -a
 	dh_md5sums -a
-	dh_builddeb -a
+
+	dh_builddeb -a --no-package=${pmodules}
 
 binary-modules: build modules-build
 	dh_install -p${pmodules}
@@ -147,7 +147,7 @@ binary-modules: build modules-build
 modules-build:
 	# Build modules
 	$(MAKE) lsi
-#	$(MAKE) mvsas
+	$(MAKE) mvsas
 	$(MAKE) fcst
 	$(MAKE) srpt
 
