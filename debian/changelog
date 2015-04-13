@@ -1,3 +1,18 @@
+scst (3.0.0~pre2+svn6182-ppa3) wheezy; urgency=high
+
+  * Merge changes from https://github.com/bvanassche/scst/tree/master.
+    Between commit b470b8 and 6317a4 by Bart Van Assche <bart.vanassche@sandisk.com>.
+      qla2x00t: Kernel 3.19 build fix
+      iscsi-scst: Add put_page_callback patch for kernel 3.19
+      iscsi-scst: Kernel 3.19 build fix
+      iscsi-scst: Prepare for kernel 3.19
+      iscsi-scst: Suppress put_page_callback patch warnings
+      vdisk_blockio: Make the WRITE VERIFY warning less verbose
+      Remove SourceForge www directory
+      Add .gitignore
+
+ -- Turbo Fredriksson <turbo@bayour.com>  Mon, 13 Apr 2015 20:13:39 +0200
+
 scst (3.0.0~pre2+svn6182-ppa2) wheezy; urgency=high
 
   * Include the mvsas.ko in the kmod package.

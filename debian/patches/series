@@ -3,3 +3,4 @@ debug-off.patch
 kdir.patch
 disable_qla2x00t_build.patch
 scst_itf_ver.h.patch
+bvanassche.patch
