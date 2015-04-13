@@ -99,7 +99,7 @@ install: build modules-build
 
 	mkdir $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/iscsi-scst
 	cp -a iscsi-scst/{Makefile,include,kernel} $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/iscsi-scst/
-	for subdirs in scst_local qla2x00t fcst srpt mpt mvsas_tgt scst; do \
+	for subdirs in scst_local qla2x00t fcst srpt mpt scst; do \
 		cp -a $$subdirs $(TMPROOT)/usr/src/scst-$(DKMSMODVER)/; \
 	done
 
@@ -147,7 +147,7 @@ binary-modules: build modules-build
 modules-build:
 	# Build modules
 	$(MAKE) lsi
-	$(MAKE) mvsas
+#	$(MAKE) mvsas
 	$(MAKE) fcst
 	$(MAKE) srpt
 
